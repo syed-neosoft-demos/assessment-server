@@ -28,7 +28,6 @@ export const createResume = async (req, res) => {
 export const updateResume = async (req, res) => {
   try {
     const body = req.body;
-    console.log('body', body?._id);
     const resumeId = new mongoose.Types.ObjectId(body?._id);
     const isExist = await resumeModel.findOne({ _id: resumeId });
     if (isExist?.about) {
@@ -39,12 +38,11 @@ export const updateResume = async (req, res) => {
           full_name: body?.full_name,
           title: body?.title,
           description: body?.description,
-          image: req?.file?.filename
+          image: body?.image ?? req?.file?.filename
         },
         user_id: userId
       };
       delete payload?._id;
-      console.log('payload', payload);
       const data = await resumeModel.updateOne({ _id: resumeId }, { $set: payload });
       if (data?.modifiedCount === 1) {
         res.status(200).send({ success: true, msg: 'resume update successful' });
