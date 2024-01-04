@@ -81,3 +81,21 @@ export const paymentSuccess = async (req, res) => {
     res.status(500).send({ success: false, msg: 'Internal server error' });
   }
 };
+
+export const updateDownload = async (req, res) => {
+  try {
+    console.log(' req?.headers?.id', req?.headers?.id);
+    const data = await userModel.updateOne(
+      { _id: req?.headers?.id },
+      { $inc: { download: 1 } }
+    );
+    if (data?.modifiedCount > 0) {
+      res.status(200).send({ success: true, msg: 'success', data: {} });
+    } else {
+      res.status(200).send({ success: false, msg: 'success', data: {} });
+    }
+  } catch (error) {
+    console.log(chalk.bgRed.bold(error));
+    res.status(500).send({ success: false, msg: 'Internal server error' });
+  }
+};

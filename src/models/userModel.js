@@ -43,6 +43,10 @@ const userSchema = new Schema(
       invoice: {
         type: String
       }
+    },
+    download: {
+      type: Number,
+      default: 0
     }
   },
   { timestamps: true }
