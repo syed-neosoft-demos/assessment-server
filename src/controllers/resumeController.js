@@ -57,6 +57,28 @@ export const updateResume = async (req, res) => {
     res.status(500).send({ success: false, msg: 'Internal server error' });
   }
 };
+export const deleteResume = async (req, res) => {
+  try {
+    const body = req.query;
+    console.log('body', body);
+    const resumeId = new mongoose.Types.ObjectId(body?.resumeId);
+    const isExist = await resumeModel.findOne({ _id: resumeId });
+    if (isExist?.about) {
+      const data = await resumeModel.deleteOne({ _id: resumeId });
+      console.log('data', data);
+      if (data?.deletedCount === 1) {
+        res.status(200).send({ success: true, msg: 'resume delete successful' });
+      } else {
+        res.status(200).send({ success: true, msg: 'no record deleted' });
+      }
+    } else {
+      res.status(404).send({ success: false, msg: 'no resume found with given id' });
+    }
+  } catch (error) {
+    console.log(chalk.bgRed.bold(error?.message), error);
+    res.status(500).send({ success: false, msg: 'Internal server error' });
+  }
+};
 export const getAllResume = async (req, res) => {
   try {
     const userId = new mongoose.Types.ObjectId(req.headers.id);

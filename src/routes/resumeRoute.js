@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   createResume,
+  deleteResume,
   getAllResume,
   getResume,
   updateResume
@@ -12,6 +13,7 @@ const router = express.Router();
 
 router.post('/create', userAuth, fileUpload.single('image'), createResume);
 router.put('/update', userAuth, fileUpload.single('image'), updateResume);
+router.delete('/delete', userAuth, fileUpload.single('image'), deleteResume);
 
 router.get('/get-all-resume', userAuth, getAllResume);
 router.get('/get-resume', userAuth, getResume);
